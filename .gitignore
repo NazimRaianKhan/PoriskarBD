@@ -1,0 +1,41 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userprefs
+
+# Visual Studio files
+.vs/
+.vscode/
+
+# Rider
+.idea/
+
+# ASP.NET temporary files
+*.log
+
+# Environment files
+appsettings.Development.json
+
+# Package files
+*.nupkg
+packages/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Entity Framework migrations snapshot
+*Migrations/*Snapshot.cs
+
+# publish folder
+publish/
+
+# node modules (if you add React later)
+node_modules/
+
+# secrets
+secrets.json

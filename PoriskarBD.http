@@ -1,0 +1,6 @@
+@PoriskarBD_HostAddress = http://localhost:5230
+
+GET {{PoriskarBD_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
