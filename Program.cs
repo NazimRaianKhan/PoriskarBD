@@ -45,7 +45,7 @@ namespace PoriskarBD
 
             // ── Services  ─────────────────────────
             builder.Services.AddScoped<IAuthService, AuthService>();
-            //builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             //builder.Services.AddScoped<IZoneService, ZoneService>();
             //builder.Services.AddScoped<IWasteReportService, WasteReportService>();
             //builder.Services.AddScoped<IScheduleService, ScheduleService>();

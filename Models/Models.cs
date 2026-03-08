@@ -11,7 +11,7 @@
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public UserRole Role { get; set; }
-        public int? ZoneId { get; set; }
+        public int? ZoneId { get; set; }    //admin
         public Zone? Zone { get; set; }
         public ICollection<WasteReport> ReportedIssues { get; set; } = new List<WasteReport>();
         public ICollection<WasteReport> AssignedReports { get; set; } = new List<WasteReport>();
