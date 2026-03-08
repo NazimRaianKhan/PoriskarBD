@@ -64,21 +64,23 @@ A backend REST API for managing city waste collection built with **.NET 10**, **
 ## Project Structure
 
 ```
-SmartWasteManagement/
+PoriskarBD/
 │
-├── Controllers/                    # Thin — receives request, calls service, returns response
-│   ├── AuthController.cs           # login, register, logout
-│   ├── UsersController.cs          # user management
-│   ├── ZonesController.cs          # zone management
-│   ├── WasteReportsController.cs   # submit, assign, collect reports
-│   └── OtherControllers.cs         # schedules, logs, admin stats
+├── Controllers/						# Thin — receives request, calls service, returns response
+│   ├── AuthController.cs				# login, register, logout
+│   ├── CollectionLogsController.cs     # logs, admin stats
+│   ├── SchedulesController.cs          # schedules 
+│   ├── UsersController.cs				# user management
+│   ├── WasteReportsController.cs		# submit, assign, collect reports
+│   └── ZonesControllers.cs				# zone management
 │
-├── Services/                       # All business logic lives here
+├── Services/							# All business logic lives here
 │   ├── AuthService.cs
+│   ├── CollectionLogAndAdminService.cs
+│   ├── ScheduleService.cs
 │   ├── UserService.cs
-│   ├── ZoneService.cs
 │   ├── WasteReportService.cs
-│   └── OtherServices.cs            # ScheduleService, CollectionLogService, AdminService
+│   ├── ZoneService.cs            
 │
 ├── Interfaces/                     # Contracts that services implement
 │   └── IServices.cs                # IAuthService, IUserService, IZoneService, etc.
@@ -98,7 +100,7 @@ SmartWasteManagement/
 │
 ├── Program.cs                      # App startup, DI registrations, middleware
 ├── appsettings.json                # Connection string and JWT config
-└── SmartWasteManagement.csproj    # Package references
+└── PoriskarBD.csproj				# Package references
 ```
 
 ---
@@ -216,9 +218,10 @@ cd PoriskarBD
 Open `appsettings.json` and set your SQL Server name:
 ```json
 "ConnectionStrings": {
-  "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=SmartWasteDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=PoriskarBD;Trusted_Connection=True;TrustServerCertificate=True;"
 }
 ```
+make sure u open microsoft sql server studio with windows authentication and your server name is correct.	
 > Your server name is shown in the SSMS connection dialog (e.g. `localhost`, `.\SQLEXPRESS`, `DESKTOP-ABC\SQLEXPRESS`)
 
 **3. Apply migrations**
