@@ -30,11 +30,6 @@ namespace PoriskarBD.Controllers
             if (result == null) return Unauthorized(new { message = "Invalid email or password." });
             return Ok(result);
         }
-        [HttpGet("hash-test")]
-        public IActionResult HashTest()
-        {
-            var hash = BCrypt.Net.BCrypt.HashPassword("Admin@123");
-            return Ok(new { hash });
-        }
+       
     }
 }
