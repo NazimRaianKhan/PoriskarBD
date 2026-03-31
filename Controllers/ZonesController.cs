@@ -39,40 +39,30 @@ namespace PoriskarBD.Controllers
         // POST: api/zones
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateZone([FromBody] CreateZoneDto createZoneDto)
+        public async Task<IActionResult> Create([FromBody] CreateZoneDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var createdZone = await _zoneService.CreateZoneAsync(createZoneDto);
-            return CreatedAtAction(nameof(GetZoneById), new { id = createdZone.Id }, createdZone);
+            var zone = await _zoneService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = zone.Id }, zone);
         }
 
         // PUT: api/zones/{id}
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateZone(int id, [FromBody] UpdateZoneDto updateZoneDto)
+        public async Task<IActionResult> Update(int id, [FromBody] CreateZoneDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var updatedZone = await _zoneService.UpdateZoneAsync(id, updateZoneDto);
-            if (updatedZone == null)
-                return NotFound($"Zone with ID {id} not found.");
-
-            return Ok(updatedZone);
+            var zone = await _zoneService.UpdateAsync(id, dto);
+            if (zone == null) return NotFound(new { message = "Zone not found." });
+            return Ok(zone);
         }
 
         // DELETE: api/zones/{id}
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteZone(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _zoneService.DeleteZoneAsync(id);
-            if (!deleted)
-                return NotFound($"Zone with ID {id} not found.");
-
-            return NoContent();
+            var deleted = await _zoneService.DeleteAsync(id);
+            if (!deleted) return NotFound(new { message = "Zone not found." });
+            return Ok(new { message = "Zone deleted." });
         }
     }
 }
