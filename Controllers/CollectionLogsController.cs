@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartWasteManagement.Interfaces;
+using PoriskarBd.Interfaces;
 using System.Threading.Tasks;
 
-namespace SmartWasteManagement.Controllers
+namespace PoriskarBd.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
