@@ -61,6 +61,48 @@ namespace PoriskarBD.Services
             return MapToDto(user);
         }
 
+        public async Task<(bool Success, string Message)> CreateCollectorAsync(CreateStaffDto dto)
+        {
+            if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
+                return (false, "Email is already registered.");
+
+            if (dto.ZoneId.HasValue && !await _context.Zones.AnyAsync(z => z.Id == dto.ZoneId))
+                return (false, "Zone not found.");
+
+            var user = new User
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                Role = UserRole.Collector,
+                ZoneId = dto.ZoneId
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return (true, "Collector created successfully.");
+        }
+
+        public async Task<(bool Success, string Message)> CreateAdminAsync(CreateStaffDto dto)
+        {
+            if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
+                return (false, "Email is already registered.");
+
+            var user = new User
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                Role = UserRole.Admin,
+                ZoneId = null
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return (true, "Admin created successfully.");
+        }
         public async Task<bool> DeleteAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);

@@ -44,6 +44,32 @@ namespace PoriskarBD.Controllers
             return Ok(profile);
         }
 
+        [HttpPut("me")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto dto)
+        {
+            var updated = await _userService.UpdateProfileAsync(GetUserId(), dto);
+            if (updated == null) return BadRequest(new { message = "Could not update profile." });
+            return Ok(updated);
+        }
+
+        [HttpPost("create-collector")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateCollector([FromBody] CreateStaffDto dto)
+        {
+            var (success, message) = await _userService.CreateCollectorAsync(dto);
+            if (!success) return BadRequest(new { message });
+            return Ok(new { message });
+        }
+
+        [HttpPost("create-admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateAdmin([FromBody] CreateStaffDto dto)
+        {
+            var (success, message) = await _userService.CreateAdminAsync(dto);
+            if (!success) return BadRequest(new { message });
+            return Ok(new { message });
+        }
+
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetById(int id)

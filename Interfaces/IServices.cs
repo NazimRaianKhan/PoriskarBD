@@ -16,6 +16,8 @@ namespace PoriskarBD.Interfaces
         Task<UserDto?> GetProfileAsync(int userId);
         Task<bool> DeleteAsync(int id);
         Task<UserDto?> UpdateProfileAsync(int userId, UpdateProfileDto dto);
+        Task<(bool Success, string Message)> CreateCollectorAsync(CreateStaffDto dto);
+        Task<(bool Success, string Message)> CreateAdminAsync(CreateStaffDto dto);
     }
 
     public interface IZoneService
