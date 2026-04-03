@@ -18,7 +18,9 @@ obj/
 *.log
 
 # Environment files
-appsettings.Development.json
+appsettings.json
+appsettings.*.json
+!appsettings.Example.json
 
 # Package files
 *.nupkg

@@ -16,6 +16,9 @@ namespace PoriskarBD
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var allowedOrigins = builder.Configuration
+                .GetSection("Cors:AllowedOrigins")
+                .Get<string[]>();
 
             // ── Database ──────────────────────────────────────────────────────
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -46,11 +49,22 @@ namespace PoriskarBD
             // ── Services  ─────────────────────────
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserService, UserService>();
-            //builder.Services.AddScoped<IZoneService, ZoneService>();
-            //builder.Services.AddScoped<IWasteReportService, WasteReportService>();
-            //builder.Services.AddScoped<IScheduleService, ScheduleService>();
-            //builder.Services.AddScoped<ICollectionLogService, CollectionLogService>();
-            //builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IZoneService, ZoneService>();
+            builder.Services.AddScoped<IWasteReportService, WasteReportService>();
+            builder.Services.AddScoped<IScheduleService, ScheduleService>();
+            builder.Services.AddScoped<ICollectionLogService, CollectionLogService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy
+                        .WithOrigins(allowedOrigins ?? Array.Empty<string>())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             builder.Services.AddControllers();
 
@@ -60,9 +74,9 @@ namespace PoriskarBD
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Smart Waste Management API",
+                    Title = "PoriskarBD API",
                     Version = "v1",
-                    Description = "Backend API for Smart Waste Management System"
+                    Description = "Backend API for PoriskarBD"
                 });
 
                 // Defining the Bearer scheme
@@ -96,7 +110,7 @@ namespace PoriskarBD
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Waste Management API v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "PoriskarBD API v1");
                 c.RoutePrefix = string.Empty;
             });
 
@@ -106,6 +120,9 @@ namespace PoriskarBD
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowFrontend");
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
