@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PoriskarBd.Interfaces;
+using PoriskarBD.Interfaces;
 using System.Threading.Tasks;
 
-namespace PoriskarBd.Controllers
+namespace PoriskarBD.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
