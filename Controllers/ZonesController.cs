@@ -20,6 +20,7 @@ namespace PoriskarBD.Controllers
 
         // GET: api/zones
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var zones = await _zoneService.GetAllAsync();

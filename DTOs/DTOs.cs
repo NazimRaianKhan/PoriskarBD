@@ -1,4 +1,5 @@
 ﻿using PoriskarBD.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PoriskarBD.DTOs
 {
@@ -117,4 +118,16 @@ namespace PoriskarBD.DTOs
         public int TotalCollectors { get; set; }
         public int TotalCitizens { get; set; }
     }
+}
+
+// ──  Profile Update  ───────────────────────────────────────────────────────────
+public class UpdateProfileDto
+{
+    [Required]
+    [MinLength(3)]
+    public string Name { get; set; } = string.Empty;
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; } = string.Empty;
 }

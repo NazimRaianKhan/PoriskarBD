@@ -46,6 +46,21 @@ namespace PoriskarBD.Services
             return user == null ? null : MapToDto(user);
         }
 
+        public async Task<UserDto?> UpdateProfileAsync(int userId, UpdateProfileDto dto)
+        {
+            var user = await _context.Users.Include(u => u.Zone).FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null) return null;
+
+            var emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email && u.Id != userId);
+            if (emailExists) return null;
+
+            user.Name = dto.Name;
+            user.Email = dto.Email;
+
+            await _context.SaveChangesAsync();
+            return MapToDto(user);
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
