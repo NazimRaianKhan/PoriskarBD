@@ -83,8 +83,16 @@ namespace PoriskarBD.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
+            var currentUserId = GetUserId();
+
+            if (id == currentUserId)
+            {
+                return BadRequest(new { message = "You cannot delete your own currently logged-in account." });
+            }
+
             var deleted = await _userService.DeleteAsync(id);
             if (!deleted) return NotFound(new { message = "User not found." });
+
             return Ok(new { message = "User deleted." });
         }
     }
